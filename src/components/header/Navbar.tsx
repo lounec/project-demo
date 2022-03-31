@@ -12,11 +12,31 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { Link } from "react-router-dom";
+import { makeStyles } from "@mui/styles";
 
 const pages = ["Products", "Users", "Contact"];
 const settings = ["Logout"];
 
+const useStyles = makeStyles({
+    root: {
+        "&.MuiPaper-root": {
+            backgroundColor: "#E7EBF0",
+            boxShadow: "none"
+        }
+    },
+    link: {
+        textDecoration: "none",
+        "& .MuiButton-root": {
+            paddingTop: 0,
+            paddingBottom: 0,
+            color: "#0072E5"
+        }
+    }
+});
+
 const Navbar = (): React.ReactElement => {
+    const classes = useStyles();
+
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
         null
     );
@@ -40,10 +60,10 @@ const Navbar = (): React.ReactElement => {
     };
 
     return (
-        <AppBar position="static">
+        <AppBar position="static" className={classes.root}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <Link to="/">
+                    <Link to="/" className={classes.link}>
                         <Typography
                             variant="h6"
                             noWrap
@@ -89,7 +109,11 @@ const Navbar = (): React.ReactElement => {
                             }}
                         >
                             {pages.map((page, idx) => (
-                                <Link key={idx} to={page}>
+                                <Link
+                                    key={idx}
+                                    to={page}
+                                    className={classes.link}
+                                >
                                     <MenuItem
                                         key={page}
                                         onClick={handleCloseNavMenu}
@@ -120,7 +144,11 @@ const Navbar = (): React.ReactElement => {
                         }}
                     >
                         {pages.map((page) => (
-                            <Link to={page.toLocaleLowerCase()} key={page}>
+                            <Link
+                                to={page.toLocaleLowerCase()}
+                                key={page}
+                                className={classes.link}
+                            >
                                 <Button
                                     onClick={handleCloseNavMenu}
                                     sx={{

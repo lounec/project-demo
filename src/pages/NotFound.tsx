@@ -4,7 +4,7 @@ import DefaultLayout from "../layouts/DefaultLayout";
 const NotFoundPage = (): ReactElement => {
     return (
         <DefaultLayout>
-            <h1>404</h1>
+            <h1>404 - Page not found</h1>
         </DefaultLayout>
     );
 };
