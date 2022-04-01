@@ -111,7 +111,7 @@ const Navbar = (): React.ReactElement => {
                             {pages.map((page, idx) => (
                                 <Link
                                     key={idx}
-                                    to={page}
+                                    to={`/${page.toLocaleLowerCase()}`}
                                     className={classes.link}
                                 >
                                     <MenuItem
@@ -145,7 +145,7 @@ const Navbar = (): React.ReactElement => {
                     >
                         {pages.map((page) => (
                             <Link
-                                to={page.toLocaleLowerCase()}
+                                to={`/${page.toLocaleLowerCase()}`}
                                 key={page}
                                 className={classes.link}
                             >
@@ -169,10 +169,7 @@ const Navbar = (): React.ReactElement => {
                                 onClick={handleOpenUserMenu}
                                 sx={{ p: 0 }}
                             >
-                                <Avatar
-                                    alt="Remy Sharp"
-                                    src="/static/images/avatar/2.jpg"
-                                />
+                                <Avatar alt="Remy Sharp" />
                             </IconButton>
                         </Tooltip>
                         <Menu
