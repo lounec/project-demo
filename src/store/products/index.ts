@@ -21,8 +21,6 @@ const slice = createSlice({
             state.isFetching = true;
         },
         success: (state, action: PayloadAction<IProduct[]>) => {
-            console.log("action => ", action);
-
             state.isFetching = false;
             state.isError = false;
             state.products = action.payload;
@@ -30,25 +28,27 @@ const slice = createSlice({
         failure: (state) => {
             state.isFetching = false;
             state.isError = true;
+        },
+        resetProducts: (state) => {
+            state.products = [];
+            state.isFetching = false;
+            state.isError = false;
         }
     }
 });
 
 export const { reducer } = slice;
 
-export const { request, success, failure } = slice.actions;
+export const { request, success, failure, resetProducts } = slice.actions;
 
 export const getProducts = (): Thunk => {
     return async (dispatch) => {
         dispatch(request());
         try {
             const { data } = await axios.get(API_PRODUCTS_BASE_URL);
-            console.log("axios data", data);
 
             dispatch(success(data));
         } catch (e) {
-            console.log("e =>", e);
-
             dispatch(failure());
         }
     };
