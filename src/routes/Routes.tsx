@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import React, { ReactElement } from "react";
 import { Routes as Router, Route } from "react-router-dom";
 import HomePage from "../pages/Home";
 import NotFoundPage from "../pages/NotFound";
