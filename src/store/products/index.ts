@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { API_PRODUCTS_BASE_URL } from "./../../constants/index";
 import axios from "axios";
+import { API_PRODUCTS_BASE_URL } from "./../../constants/index";
 import { IProduct, ISlice } from "./types";
 import { Thunk } from "../../store/types";
 
