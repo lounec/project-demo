@@ -20,6 +20,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 import Loader from "../global/Loader";
+import { LS_USER } from "../../constants";
 
 const pages = ["Products", "Users", "Contact"];
 const settings = ["Logout"];
@@ -78,6 +79,7 @@ const Navbar = (): React.ReactElement => {
     const handleLogout = (): void => {
         dispatch(resetAuth());
         handleCloseUserMenu();
+        localStorage.removeItem(LS_USER)
     };
 
     return (
@@ -164,10 +166,10 @@ const Navbar = (): React.ReactElement => {
                             display: { xs: "none", md: "flex" }
                         }}
                     >
-                        {pages.map((page) => (
+                        {pages.map((page, idx) => (
                             <Link
                                 to={`/${page.toLocaleLowerCase()}`}
-                                key={page}
+                                key={idx}
                                 className={classes.link}
                             >
                                 <Button
@@ -211,10 +213,9 @@ const Navbar = (): React.ReactElement => {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}
                             >
-                                {settings.map((setting) => (
-                                    <>
+                                {settings.map((setting, idx) => (
+                                    <div key={idx}>
                                         <MenuItem
-                                            key={setting}
                                             onClick={handleCloseUserMenu}
                                         >
                                             Hi {user?.username}!
@@ -227,7 +228,7 @@ const Navbar = (): React.ReactElement => {
                                                 {setting}
                                             </Typography>
                                         </MenuItem>
-                                    </>
+                                    </div>
                                 ))}
                             </Menu>
                         </Box>

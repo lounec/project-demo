@@ -1,3 +1,4 @@
+import { LS_USER } from './../../constants/index';
 /* eslint-disable max-len */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
@@ -22,7 +23,6 @@ const slice = createSlice({
             state.isFetching = true;
         },
         success: (state, action: PayloadAction<IUser>) => {
-            console.log("action => ", action);
 
             state.isFetching = false;
             state.isError = false;
@@ -49,13 +49,27 @@ export const { reducer } = slice;
 
 export const { request, success, failure, resetAuth } = slice.actions;
 
+export const refreshLogin = (): Thunk => {
+
+    return async (dispatch) => {
+        try {
+
+            const user = JSON.parse(localStorage.getItem(LS_USER) || "{}")
+            
+            dispatch(success(user))
+            
+        } catch (error) {
+            console.error(error);
+            
+        }
+    }
+}
+
 export const getUser = (): Thunk => {
     return async (dispatch) => {
         dispatch(request());
         try {
             const { data } = await axios.get(API_USER_BASE_URL);
-
-            console.log("data => ", data);
 
             const {
                 id: { value },
@@ -75,6 +89,7 @@ export const getUser = (): Thunk => {
 
             setTimeout(() => {
                 dispatch(success(user));
+                localStorage.setItem(LS_USER, JSON.stringify(user))
             }, 2000);
         } catch (e) {
             dispatch(failure());
