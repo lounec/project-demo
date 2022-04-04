@@ -9,8 +9,18 @@ import {
 } from "../store/products/selectors";
 import Loader from "../components/global/Loader";
 import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import  ProductCard from "../components/products/ProductCard";
+import { makeStyles } from "@mui/styles"
+
+const useStyles = makeStyles({
+    root: {
+        marginBottom: 300
+    }
+})
 
 const ProductsPage: React.FC = (): ReactElement => {
+    const classes = useStyles()
     const dispatch = useDispatch();
     const isFetching = useSelector(selectIsFetching);
     const isError = useSelector(selectIsError);
@@ -28,13 +38,18 @@ const ProductsPage: React.FC = (): ReactElement => {
 
     return (
         <DefaultLayout>
-            <Container maxWidth="md">
+            <Container maxWidth="md" className={classes.root}>
                 <h1>Products</h1>
                 {isFetching && <Loader />}
                 {isError && <h1>Error loading data.</h1>}
-                {products.map((product, idx) => (
-                <h5 key={product.title + idx}>{product.title}</h5>
-                ))}
+                <Grid container spacing={2}>
+                    {products.map((product, idx) => (
+                        <Grid key={product.title + idx} item xs={4}>
+                            <ProductCard   product={product} />
+                        </Grid>
+                        
+                    ))}
+                </Grid>
             </Container>
         </DefaultLayout>
     );
