@@ -55,6 +55,10 @@ export const refreshLogin = (): Thunk => {
         try {
 
             const user = JSON.parse(localStorage.getItem(LS_USER) || "{}")
+
+            const userArr = Object.keys(user)
+            
+            if(!userArr.length) return
             
             dispatch(success(user))
             
