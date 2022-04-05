@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, ReactElement } from "react";
+import React, { ReactElement } from "react";
 import { useDispatch } from "react-redux";
 import DefaultLayout from "../layouts/DefaultLayout";
 import { makeStyles } from "@mui/styles"
@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { selectCart, selectProducts } from "../store/products/selectors";
 import Container from '@mui/material/Container';
 import { removeFromCart } from "../store/products";
+import clsx from "clsx"
 
 const useStyles = makeStyles({
     listWrapper: {
@@ -31,6 +32,12 @@ const useStyles = makeStyles({
         fontSize: 14,
         color: "red",
         cursor: "pointer"
+    },
+    total: {
+        marginTop: 30
+    },
+    titleTotal: {
+        fontWeight: "bold"
     }
 })
 
@@ -44,6 +51,24 @@ const CartPage = (): ReactElement => {
         dispatch(removeFromCart(id))
     }
 
+    const getTotal = () => {
+        
+        if (!cart.length) return 0
+
+        let total = 0
+        
+        for (const id of cart) {
+            const product = products.find((elem) => elem.id === id)
+            
+            if (product) {
+                 total += product.price
+             }
+            
+        }
+
+        return total
+    }
+
 
     return (
         <DefaultLayout>
@@ -54,13 +79,12 @@ const CartPage = (): ReactElement => {
                 {cart.length? (<ul className={classes.listWrapper}>
 
                 {cart.map((id, idx) => {
-                    const product = products.filter(product => product.id === id)
-                    console.log("product", product);
+                    const product = products.find(product => product.id === id)
                     
 
                     if(!product) return null
                     
-                    const {title, price, id: prodId} = product[0]
+                    const {title, price, id: prodId} = product
 
                     
                     return (<li key={id + idx + prodId} className={classes.item}>
@@ -68,7 +92,12 @@ const CartPage = (): ReactElement => {
                         <span className={classes.price}>${price}</span>
                         <span className={classes.remove} onClick={() => handleRemove(id)}>Remove</span>
                     </li>)
-               })}
+                })}
+                    
+                    <li className={clsx(classes.item, classes.total)}>
+                        <span className={clsx(classes.title, classes.titleTotal)}>Total</span>
+                        <span className={classes.price}>${getTotal()}</span>
+                    </li>
 
             </ul>): null}
             </Container>
