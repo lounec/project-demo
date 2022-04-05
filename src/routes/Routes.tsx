@@ -5,6 +5,7 @@ import { refreshLogin } from "../store/auth";
 import HomePage from "../pages/Home";
 import NotFoundPage from "../pages/NotFound";
 import ProductsPage from "../pages/Products";
+import CartPage from "../pages/Cart";
 
 const Routes = (): ReactElement => {
     const dispatch = useDispatch()
@@ -17,6 +18,7 @@ const Routes = (): ReactElement => {
         <Router>
             <Route path="/" element={<HomePage />} />
             <Route path="/products" element={<ProductsPage />} />
+            <Route path="/cart" element={<CartPage />} />
             <Route path="*" element={<NotFoundPage />} />
         </Router>
     );

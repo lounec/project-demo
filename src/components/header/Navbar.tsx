@@ -1,11 +1,13 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getUser, resetAuth } from "../../store/auth";
+import { resetCart } from "../../store/products";
 import {
     selectAuthenticated,
     selectUser,
     selectIsFetching
 } from "../../store/auth/selectors";
+import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -17,10 +19,10 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
-import { Link } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 import Loader from "../global/Loader";
 import { LS_USER } from "../../constants";
+import Cart from "../header/Cart";
 
 const pages = ["Products", "Users", "Contact"];
 const settings = ["Logout"];
@@ -39,6 +41,15 @@ const useStyles = makeStyles({
             paddingBottom: 0,
             color: "#0072E5"
         }
+    },
+    right: {
+        display: "flex",
+        alignItems: 'center'
+    },
+    username: {
+        display: 'inline-block',
+        marginRight: 15,
+        color: "#0288d1"
     }
 });
 
@@ -78,6 +89,7 @@ const Navbar = (): React.ReactElement => {
 
     const handleLogout = (): void => {
         dispatch(resetAuth());
+        dispatch(resetCart())
         handleCloseUserMenu();
         localStorage.removeItem(LS_USER)
     };
@@ -93,7 +105,7 @@ const Navbar = (): React.ReactElement => {
                             component="div"
                             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
                         >
-                            LOGO
+                            DEMO
                         </Typography>
                     </Link>
 
@@ -158,7 +170,7 @@ const Navbar = (): React.ReactElement => {
                             display: { xs: "flex", md: "none" }
                         }}
                     >
-                        LOGO
+                        DEMO
                     </Typography>
                     <Box
                         sx={{
@@ -186,12 +198,21 @@ const Navbar = (): React.ReactElement => {
                         ))}
                     </Box>
 
-                    {authenticated ? (
-                        <Box sx={{ flexGrow: 0 }}>
+                   
+                    <Box sx={{ flexGrow: 0 }} className={classes.right}>
+                            <Cart />
+                        {authenticated ? (
+                            <>
+                            
+                                <span className={classes.username}>
+                                    Hi {user?.username}!
+                            </span>
+                                
+                                    
                             <IconButton
                                 onClick={handleOpenUserMenu}
                                 sx={{ p: 0 }}
-                            >
+                                >
                                 <Avatar
                                     alt={user?.username}
                                     src={user?.picture}
@@ -216,11 +237,6 @@ const Navbar = (): React.ReactElement => {
                                 {settings.map((setting, idx) => (
                                     <div key={idx}>
                                         <MenuItem
-                                            onClick={handleCloseUserMenu}
-                                        >
-                                            Hi {user?.username}!
-                                        </MenuItem>
-                                        <MenuItem
                                             key={setting}
                                             onClick={handleLogout}
                                         >
@@ -231,7 +247,7 @@ const Navbar = (): React.ReactElement => {
                                     </div>
                                 ))}
                             </Menu>
-                        </Box>
+                        </>
                     ) : (
                         <>
                             {isFetching ? (
@@ -247,6 +263,7 @@ const Navbar = (): React.ReactElement => {
                             )}
                         </>
                     )}
+                        </Box>
                 </Toolbar>
             </Container>
         </AppBar>

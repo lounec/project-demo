@@ -7,11 +7,11 @@ import { Thunk } from "../../store/types";
 
 const initialState: ISlice = {
     products: [],
+    cart: [],
     isFetching: false,
     isError: false
 };
 
-//
 
 const slice = createSlice({
     name: "products",
@@ -33,13 +33,29 @@ const slice = createSlice({
             state.products = [];
             state.isFetching = false;
             state.isError = false;
+        },
+        addToCart: (state, action) => {
+            const id = action.payload
+            const prevCart = [...state.cart]
+
+           !prevCart.includes(id)  && state.cart.push(id)
+        },
+        removeFromCart: (state, action) => {
+            const id = action.payload
+            const prevCart = [...state.cart]
+            const newCart = prevCart.filter(item => item !== id)
+
+            state.cart = newCart
+        },
+        resetCart: (state) => {
+            state.cart = []
         }
     }
 });
 
 export const { reducer } = slice;
 
-export const { request, success, failure, resetProducts } = slice.actions;
+export const { request, success, failure, resetProducts, addToCart, removeFromCart, resetCart } = slice.actions;
 
 export const getProducts = (): Thunk => {
     return async (dispatch) => {

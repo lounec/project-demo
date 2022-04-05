@@ -15,6 +15,7 @@ export interface IProduct {
 
 export interface ISlice {
     products: IProduct[];
+    cart: number[];
     isFetching: boolean;
     isError: boolean;
 }

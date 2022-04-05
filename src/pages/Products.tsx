@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DefaultLayout from "../layouts/DefaultLayout";
-import { getProducts, resetProducts } from "../store/products";
+import { getProducts } from "../store/products";
 import {
     selectProducts,
     selectIsFetching,
@@ -28,12 +28,6 @@ const ProductsPage: React.FC = (): ReactElement => {
 
     useEffect(() => {
         !products.length && dispatch(getProducts());
-
-        return () => {
-            console.log("quit");
-
-            dispatch(resetProducts());
-        };
     }, []);
 
     return (

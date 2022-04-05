@@ -1,4 +1,4 @@
-import { RootState } from "../types";
+import { RootState } from './../types';
 import { IProduct } from "./types";
 
 export const selectIsFetching = (state: RootState): boolean =>
@@ -9,3 +9,5 @@ export const selectIsError = (state: RootState): boolean =>
 
 export const selectProducts = (state: RootState): IProduct[] =>
     state.products.products;
+
+export const selectCart = (state: RootState): number[] => state.products.cart
